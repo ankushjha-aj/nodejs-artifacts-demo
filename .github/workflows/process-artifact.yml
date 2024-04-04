@@ -15,7 +15,7 @@ jobs:
 
   process_artifact:  # This job actually processes the artifact
     runs-on: ubuntu-latest
-    needs: [build, dummy_job]
+    needs: [generate_and_upload, dummy_job]
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
