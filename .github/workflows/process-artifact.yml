@@ -7,15 +7,9 @@ on:
       - completed  
 
 jobs:
-  dummy_job:   # Job to resolve the error
+  process_artifact:
     runs-on: ubuntu-latest
-    steps:
-      - name: Placeholder step
-        run: echo "This job ensures workflow validity"
-
-  process_artifact:  # This job actually processes the artifact
-    runs-on: ubuntu-latest
-    needs: [generate_and_upload, dummy_job]
+    needs: build
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
