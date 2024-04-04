@@ -3,7 +3,7 @@ name: Build and Store Artifact
 on: [push] 
 
 jobs:
-  generate_and_upload: 
+  build: 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
