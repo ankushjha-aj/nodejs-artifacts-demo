@@ -1,23 +1,30 @@
 name: Process Artifact
 
 on:
-  workflow_run:   # Trigger when the workflow that generates the artifact completes
+  workflow_run:   
     workflows: ["Build and Store Artifact"] 
     types: 
       - completed  
 
 jobs:
-  process_artifact:
+  dummy_job:   # Job to resolve the error
     runs-on: ubuntu-latest
-    needs: build  # Ensure dependency on the 'build' job from the previous workflow
+    steps:
+      - name: Placeholder step
+        run: echo "This job ensures workflow validity"
+
+  process_artifact:  # This job actually processes the artifact
+    runs-on: ubuntu-latest
+    needs: [build, dummy_job]
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: my-artifact 
       - name: Process the artifact
-        run: |
+        run: | 
           artifactData=$(cat data.json)
           timestamp=$(echo $artifactData | jq '.timestamp')
+          message=$(echo $artifactData | jq '.message')
           echo "Artifact generated at: $timestamp"
-          
+          echo "Message from artifact: $message"
